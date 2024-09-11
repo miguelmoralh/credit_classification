@@ -165,10 +165,8 @@ plt.xlabel('Predicted label')
 # Ensure the 'logs' folder exists
 os.makedirs('logs', exist_ok=True)
 
-# Save the plot
+# Save and plot
 plt.savefig('logs/confusion_matrix.png', dpi=300, bbox_inches='tight')
-
-# Show the plot (optional, you can comment this out if you don't need to display it)
 plt.show()
 
 # Calculate and print classification report
