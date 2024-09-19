@@ -6,6 +6,9 @@ import lightgbm as lgb
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 import xgboost as xgb
+from sklearn.calibration import CalibratedClassifierCV, calibration_curve
+from sklearn.metrics import brier_score_loss
+import matplotlib.pyplot as plt
 
 def match_features(features_list, df):
     """
@@ -123,3 +126,55 @@ def get_best_model(best_trial_info):
         raise ValueError(f"Model {model_name} not recognized.")
     
     return model
+
+from sklearn.base import BaseEstimator, TransformerMixin
+import numpy as np
+from sklearn.calibration import CalibratedClassifierCV, calibration_curve
+from sklearn.metrics import brier_score_loss
+    
+'''
+Remember that the decisions ARE TAKEN WITH TRAIN DATA BY USING VALIDATION, AND THEN CHANGES ARE APPLIED TO TEST.
+That is why we use only training data in the function.
+
+The Brier score measures the mean squared difference between the predicted probabilities 
+and the actual outcomes. Lower Brier scores indicate better calibration.
+'''
+
+# Function to evaluate calibration methods and return the best one based on Brier score
+def optimize_calibration_multiclass(model, X_train, y_train):
+    
+    # Define calibration methods to compare
+    calibration_methods = ['none', 'sigmoid', 'isotonic']
+    
+    # Dictionary to store Brier scores and calibrated models
+    brier_scores = {}
+    
+    # Iterate over each calibration method
+    for method in calibration_methods:
+        if method == 'none':
+            # If no calibration, just use the original model
+            calibrated_model = model
+        else:
+            # Apply CalibratedClassifierCV with chosen method
+            calibrated_model = CalibratedClassifierCV(model, method=method, cv='prefit')
+            calibrated_model.fit(X_train, y_train)
+        
+        # Get predicted probabilities for each class
+        y_proba = calibrated_model.predict_proba(X_train)
+        
+        # Calculate multiclass Brier score
+        brier_score = 0
+        for class_idx in range(y_proba.shape[1]):  # Loop over each class
+            # One-vs-rest Brier score for each class
+            brier_score += brier_score_loss((y_train == class_idx).astype(int), y_proba[:, class_idx])
+        
+        # Average Brier score over all classes
+        brier_score /= y_proba.shape[1]
+        brier_scores[method] = brier_score
+    
+    # Get the best method based on the lowest Brier score
+    best_method = min(brier_scores, key=brier_scores.get)
+    return best_method, brier_scores[best_method]
+
+
+
