@@ -159,7 +159,8 @@ def objective(trial, model_type, X, y, imputer, encoder, scorer, scv):
     
     return mean_score, mean_overfitting_score
 
-# Function done to treat catboost as no need to encode categorical features (NO PIPELINE HERE AS DIFFICULTIES BETWEEN SKLEARN AND OTHER LIBRARIES)
+# Function done to treat catboost as no need to encode categorical features 
+# NO PIPELINE HERE BECAUSE OF DIFFICULTIES BETWEEN SKLEARN AND OTHER LIBRARIES
 def objective_categorical(trial, model_type, X, y, imputer, scorer, scv, cat_features): 
     model = get_model(trial, model_type, cat_features)
     scores_val_list = []

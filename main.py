@@ -2,7 +2,7 @@
 from constant import (
     OBJECT_TO_FLOAT, OBJECT_TO_INT, TIME_TO_NUMERIC_YEARS, MONTHS_TO_NUMERIC,
     MULTI_LABEL_BINARIZER_FEATURES, ORDINAL_VARIABLES, 
-    CATEGORICAL_NON_ORDINAL_VARIABLES, CONTINUOUS_FEATURES, PARAMS_RF_RFE
+    CATEGORICAL_NON_ORDINAL_VARIABLES
 )
 from utils.utils import match_features, find_best_trial, get_best_model, optimize_calibration_multiclass
 from data_cleanning import DataCleanning
@@ -140,8 +140,6 @@ y_prob_test_calibrated = calibrated_model.predict_proba(X_test_encoded)
 
 # Generate calibration curve
 prob_true_calibrated, prob_pred_calibrated = calibration_curve((y_test == 0).astype(int), y_prob_test_calibrated[:, 0], n_bins=10)
-
-# Visualize calibration curve of best model
 
 # Make sure 'logs' folder exists
 output_dir = 'logs'
