@@ -11,7 +11,7 @@ a threshold we keep or eliminate features.
 from constant import (
     OBJECT_TO_FLOAT, OBJECT_TO_INT, TIME_TO_NUMERIC_YEARS, MONTHS_TO_NUMERIC,
     MULTI_LABEL_BINARIZER_FEATURES, ORDINAL_VARIABLES, 
-    CATEGORICAL_NON_ORDINAL_VARIABLES, PARAMS_RF_RFE
+    CATEGORICAL_NON_ORDINAL_VARIABLES, PARAMS_RF_RFE, TARGET_MAPPING
 )
 import os
 from utils.utils import match_features
@@ -33,15 +33,8 @@ df = pd.read_csv('data/train.csv')
 x = df.drop(columns=['Credit_Score'])
 y = df['Credit_Score']
 
-# Define the mapping for the target variable
-target_mapping = {
-    "Poor": 0,
-    "Standard": 1,
-    "Good": 2
-}
-
 # Encode the target variable 'y' using the mapping
-y_encoded = y.map(target_mapping)
+y_encoded = y.map(TARGET_MAPPING)
 
 # Split the data
 X_train, X_test, y_train, y_test = train_test_split(x, y_encoded, test_size=0.3, random_state=4)
@@ -61,7 +54,7 @@ X_train_cleaned = data_cleaner.fit_transform(X_train.copy())
 X_test_cleaned = data_cleaner.transform(X_test.copy())
 
 # Get the path of the stored selected features in 01_main_dependence_fs.py
-file_path = "logs\dependence_selected_features.txt"
+file_path = "logs/selected_features/dependence_selected_features.txt"
 
 # Open the file and read the lines
 with open(file_path, 'r') as file:
@@ -69,10 +62,6 @@ with open(file_path, 'r') as file:
 
 # Filter the common columns between features_list and X_train_cleaned (handling encoding renaming columns)
 original_features = match_features(features_list, X_train_cleaned)
-
-# Filter the dataset with dependence selected features
-X_train_filtered = X_train_cleaned[original_features]
-X_test_filtered = X_test_cleaned[original_features]
 
 # Initialize imputer and encoder
 imputer = ImputeMissing()  
@@ -104,14 +93,14 @@ rfe = CustomRFECV(
     cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 )
 
-X_train_selected_rfe = rfe.fit_transform(X_train_filtered.copy(), y_train.copy())
-X_test_selected_rfe = rfe.transform(X_test_filtered.copy())
+X_train_selected_rfe = rfe.fit_transform(X_train_cleaned[original_features], y_train.copy())
+X_test_selected_rfe = rfe.transform(X_test_cleaned[original_features])
 selected_features = X_train_selected_rfe.columns.tolist()
 print("Features to Remove:")
 print(rfe.features_to_remove_)
 
 # Path to save the selected features
-logs_dir = 'logs'
+logs_dir = 'logs/selected_features'
 os.makedirs(logs_dir, exist_ok=True)  # Create directory if it doesn't exist
 rfe_selected_features_file = os.path.join(logs_dir, 'rfe_selected_features.txt')
 

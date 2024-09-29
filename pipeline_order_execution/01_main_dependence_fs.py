@@ -1,7 +1,7 @@
 from constant import (
     OBJECT_TO_FLOAT, OBJECT_TO_INT, TIME_TO_NUMERIC_YEARS, MONTHS_TO_NUMERIC,
     MULTI_LABEL_BINARIZER_FEATURES, ORDINAL_VARIABLES, 
-    CATEGORICAL_NON_ORDINAL_VARIABLES, CONTINUOUS_FEATURES
+    CATEGORICAL_NON_ORDINAL_VARIABLES, CONTINUOUS_FEATURES, TARGET_MAPPING
 )
 import os
 from data_cleanning import DataCleanning
@@ -18,15 +18,8 @@ df = pd.read_csv('data/train.csv')
 x = df.drop(columns=['Credit_Score'])
 y = df['Credit_Score']
 
-# Define the mapping for the target variable
-target_mapping = {
-    "Poor": 0,
-    "Standard": 1,
-    "Good": 2
-}
-
 # Encode the target variable 'y' using the mapping
-y_encoded = y.map(target_mapping)
+y_encoded = y.map(TARGET_MAPPING)
 
 # Split the data
 X_train, X_test, y_train, y_test = train_test_split(x, y_encoded, test_size=0.3, random_state=4)
@@ -72,7 +65,7 @@ X_test_selected = feature_selector.transform(X_test_encoded)
 selected_features = X_train_selected.columns.tolist()
 
 # Path to save the selected features
-logs_dir = 'logs'
+logs_dir = 'logs/selected_features'
 os.makedirs(logs_dir, exist_ok=True)  # Create directory if it doesn't exist
 dependence_selected_features_file = os.path.join(logs_dir, 'dependence_selected_features.txt')
 

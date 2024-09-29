@@ -8,19 +8,19 @@ instead of just digging random holes (random search) or going through the entire
 from constant import (
     OBJECT_TO_FLOAT, OBJECT_TO_INT, TIME_TO_NUMERIC_YEARS, MONTHS_TO_NUMERIC,
     MULTI_LABEL_BINARIZER_FEATURES, ORDINAL_VARIABLES, 
-    CATEGORICAL_NON_ORDINAL_VARIABLES
+    CATEGORICAL_NON_ORDINAL_VARIABLES, TARGET_MAPPING
 )
-from utils.utils import match_features, save_study_trials_to_json, save_pareto_front_plot
+from utils.utils import match_features
+from utils.utils_hyp_opt import save_pareto_front_plot, save_study_trials_to_json
 from data_cleanning import DataCleanning
 from imputer import ImputeMissing
 from cateorical_encoder import CategoricalEncoder
-from utils.hyperparams_selection import objective, objective_categorical
+from utils.utils_hyperparams_selection import objective, objective_categorical
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, make_scorer
 from sklearn.model_selection import StratifiedKFold
 import optuna
-import optuna.visualization as vis
 from optuna.samplers import NSGAIISampler
 import functools
 
@@ -31,15 +31,8 @@ df = pd.read_csv('data/train.csv')
 x = df.drop(columns=['Credit_Score'])
 y = df['Credit_Score']
 
-# Define the mapping for the target variable
-target_mapping = {
-    "Poor": 0,
-    "Standard": 1,
-    "Good": 2
-}
-
 # Encode the target variable 'y' using the mapping
-y_encoded = y.map(target_mapping)
+y_encoded = y.map(TARGET_MAPPING)
 
 # Split the data
 X_train, X_test, y_train, y_test = train_test_split(x, y_encoded, test_size=0.3, random_state=4)
@@ -59,7 +52,7 @@ X_train_cleaned = data_cleaner.fit_transform(X_train.copy())
 X_test_cleaned = data_cleaner.transform(X_test.copy())
 
 # Get the path of the stored selected features in 02_main_rfe_fs.py
-file_path = "logs\\rfe_selected_features.txt"
+file_path = "logs/selected_features/rfe_selected_features.txt"
 
 # Open the file and read the lines
 with open(file_path, 'r') as file:
@@ -115,9 +108,6 @@ study_dt.optimize(objective_dt, n_trials=30, show_progress_bar=True)
 # Save trials for Decision Tree
 save_study_trials_to_json(study_dt, "decision_tree")
 
-# Plot and save Pareto front for Decision Tree
-save_pareto_front_plot(study_dt, "decision_tree")
-
 ## RANDOM FOREST
 
 # Define the objective function with additional arguments using functools.partial and optimize
@@ -157,9 +147,6 @@ study_xgb.optimize(objective_xgb, n_trials=30, show_progress_bar=True)
 # Save trials for XGBoost
 save_study_trials_to_json(study_xgb, "xgboost")
 
-# Plot and save Pareto front for XGBoost
-save_pareto_front_plot(study_xgb, "xgboost")
-
 ## CATBOOST
 
 # Define the objective function with additional arguments using functools.partial and optimize
@@ -193,9 +180,6 @@ study_cb.optimize(objective_cb, n_trials=30, show_progress_bar=True)
 # Save trials for Catboost
 save_study_trials_to_json(study_cb, "catboost")
 
-# Plot and save Pareto front for Catboost
-save_pareto_front_plot(study_cb, "catboost")
-
 ## LIGHTGBM
 
 # Define the objective function with additional arguments using functools.partial and optimize
@@ -217,12 +201,6 @@ save_study_trials_to_json(study_lgbm, "lightgbm")
 # Plot and save Pareto front for Lightgbm
 save_pareto_front_plot(study_lgbm, "lightgbm")
 
-# Create Pareto front plots for each model in a single plot
-vis.plot_pareto_front(study_dt, target_names=["ROC AUC", "Overfitting"]).show()
-vis.plot_pareto_front(study_rf, target_names=["ROC AUC", "Overfitting"]).show()
-vis.plot_pareto_front(study_xgb, target_names=["ROC AUC", "Overfitting"]).show()
-vis.plot_pareto_front(study_cb, target_names=["ROC AUC", "Overfitting"]).show()
-vis.plot_pareto_front(study_lgbm, target_names=["ROC AUC", "Overfitting"]).show()
 
 
 

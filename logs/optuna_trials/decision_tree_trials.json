@@ -1,0 +1,482 @@
+[
+    {
+        "Trial Number": 0,
+        "Params": {
+            "max_depth": 18,
+            "min_samples_split": 30,
+            "min_samples_leaf": 5,
+            "max_features": null,
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.841249715490469,
+            0.08926538413651705
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 1,
+        "Params": {
+            "max_depth": 40,
+            "min_samples_split": 14,
+            "min_samples_leaf": 16,
+            "max_features": null,
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.8069509187847608,
+            0.06995434561967587
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 2,
+        "Params": {
+            "max_depth": 20,
+            "min_samples_split": 3,
+            "min_samples_leaf": 15,
+            "max_features": null,
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.8034787243545309,
+            0.0679766361161139
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 3,
+        "Params": {
+            "max_depth": 21,
+            "min_samples_split": 23,
+            "min_samples_leaf": 6,
+            "max_features": "log2",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7611029105662535,
+            0.055188828535862024
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 4,
+        "Params": {
+            "max_depth": 7,
+            "min_samples_split": 32,
+            "min_samples_leaf": 16,
+            "max_features": "log2",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.6841672645419272,
+            0.0034052318366308842
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 5,
+        "Params": {
+            "max_depth": 12,
+            "min_samples_split": 28,
+            "min_samples_leaf": 32,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.743157622037129,
+            0.014922448491603157
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 6,
+        "Params": {
+            "max_depth": 4,
+            "min_samples_split": 13,
+            "min_samples_leaf": 25,
+            "max_features": "log2",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.6219940654033536,
+            0.00048228177665028406
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 7,
+        "Params": {
+            "max_depth": 39,
+            "min_samples_split": 3,
+            "min_samples_leaf": 9,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7696753356742192,
+            0.06675228798349678
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 8,
+        "Params": {
+            "max_depth": 10,
+            "min_samples_split": 20,
+            "min_samples_leaf": 3,
+            "max_features": null,
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.784233523843184,
+            0.01665849720459369
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 9,
+        "Params": {
+            "max_depth": 40,
+            "min_samples_split": 20,
+            "min_samples_leaf": 5,
+            "max_features": "log2",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7658816923637419,
+            0.06871618650148228
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 10,
+        "Params": {
+            "max_depth": 24,
+            "min_samples_split": 14,
+            "min_samples_leaf": 15,
+            "max_features": "log2",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7429045048179488,
+            0.031831410607542174
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 11,
+        "Params": {
+            "max_depth": 18,
+            "min_samples_split": 32,
+            "min_samples_leaf": 22,
+            "max_features": "log2",
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.833921424006073,
+            0.05007682761448453
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 12,
+        "Params": {
+            "max_depth": 39,
+            "min_samples_split": 10,
+            "min_samples_leaf": 17,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7589893915507631,
+            0.041067309572019095
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 13,
+        "Params": {
+            "max_depth": 16,
+            "min_samples_split": 27,
+            "min_samples_leaf": 26,
+            "max_features": "log2",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7486792845347019,
+            0.01832173296172246
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 14,
+        "Params": {
+            "max_depth": 36,
+            "min_samples_split": 32,
+            "min_samples_leaf": 1,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.8253604013522207,
+            0.11002155530305684
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 15,
+        "Params": {
+            "max_depth": 34,
+            "min_samples_split": 8,
+            "min_samples_leaf": 14,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.834066566243559,
+            0.08222136628866465
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 16,
+        "Params": {
+            "max_depth": 34,
+            "min_samples_split": 18,
+            "min_samples_leaf": 22,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "best"
+        },
+        "Values": [
+            0.8362584460508365,
+            0.05992043634985365
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 17,
+        "Params": {
+            "max_depth": 9,
+            "min_samples_split": 13,
+            "min_samples_leaf": 6,
+            "max_features": null,
+            "criterion": "gini",
+            "splitter": "best"
+        },
+        "Values": [
+            0.8328842933607309,
+            0.018472286652592908
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 18,
+        "Params": {
+            "max_depth": 26,
+            "min_samples_split": 8,
+            "min_samples_leaf": 16,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7613929392469261,
+            0.04376943450218453
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 19,
+        "Params": {
+            "max_depth": 27,
+            "min_samples_split": 6,
+            "min_samples_leaf": 28,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "best"
+        },
+        "Values": [
+            0.8374374513411367,
+            0.04984808971924819
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 20,
+        "Params": {
+            "max_depth": 7,
+            "min_samples_split": 10,
+            "min_samples_leaf": 21,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7078023899415011,
+            0.003692274998848255
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 21,
+        "Params": {
+            "max_depth": 11,
+            "min_samples_split": 2,
+            "min_samples_leaf": 12,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7397277451573898,
+            0.017112214567175134
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 22,
+        "Params": {
+            "max_depth": 5,
+            "min_samples_split": 17,
+            "min_samples_leaf": 23,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.7913909340080758,
+            0.00125283397980116
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 23,
+        "Params": {
+            "max_depth": 38,
+            "min_samples_split": 6,
+            "min_samples_leaf": 18,
+            "max_features": null,
+            "criterion": "gini",
+            "splitter": "best"
+        },
+        "Values": [
+            0.8441255243685652,
+            0.08143159386743917
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 24,
+        "Params": {
+            "max_depth": 14,
+            "min_samples_split": 7,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "best"
+        },
+        "Values": [
+            0.831738929929864,
+            0.05790798150468997
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 25,
+        "Params": {
+            "max_depth": 30,
+            "min_samples_split": 29,
+            "min_samples_leaf": 25,
+            "max_features": null,
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.8037615198095406,
+            0.04882416835203487
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 26,
+        "Params": {
+            "max_depth": 26,
+            "min_samples_split": 5,
+            "min_samples_leaf": 4,
+            "max_features": "sqrt",
+            "criterion": "gini",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7740069916439549,
+            0.12726590047979486
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 27,
+        "Params": {
+            "max_depth": 3,
+            "min_samples_split": 3,
+            "min_samples_leaf": 3,
+            "max_features": "sqrt",
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.7640174615933631,
+            0.0003178589579510005
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 28,
+        "Params": {
+            "max_depth": 32,
+            "min_samples_split": 16,
+            "min_samples_leaf": 32,
+            "max_features": "log2",
+            "criterion": "entropy",
+            "splitter": "random"
+        },
+        "Values": [
+            0.7385905039088094,
+            0.015921382121735706
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 29,
+        "Params": {
+            "max_depth": 18,
+            "min_samples_split": 27,
+            "min_samples_leaf": 2,
+            "max_features": "log2",
+            "criterion": "entropy",
+            "splitter": "best"
+        },
+        "Values": [
+            0.8266180387858263,
+            0.08553051972985941
+        ],
+        "Trial State": "COMPLETE"
+    }
+]

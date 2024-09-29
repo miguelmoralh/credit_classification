@@ -1,0 +1,482 @@
+[
+    {
+        "Trial Number": 0,
+        "Params": {
+            "n_estimators": 143,
+            "max_depth": 17,
+            "criterion": "gini",
+            "min_samples_split": 23,
+            "min_samples_leaf": 28,
+            "max_features": null
+        },
+        "Values": [
+            0.8767463229099357,
+            0.037413877288031604
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 1,
+        "Params": {
+            "n_estimators": 927,
+            "max_depth": 19,
+            "criterion": "log_loss",
+            "min_samples_split": 10,
+            "min_samples_leaf": 1,
+            "max_features": null
+        },
+        "Values": [
+            0.906419848573431,
+            0.08364377991734864
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 2,
+        "Params": {
+            "n_estimators": 747,
+            "max_depth": 29,
+            "criterion": "log_loss",
+            "min_samples_split": 16,
+            "min_samples_leaf": 10,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8942690115083355,
+            0.06177783996334622
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 3,
+        "Params": {
+            "n_estimators": 951,
+            "max_depth": 6,
+            "criterion": "entropy",
+            "min_samples_split": 32,
+            "min_samples_leaf": 27,
+            "max_features": null
+        },
+        "Values": [
+            0.8437183482292872,
+            0.003439486178507023
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 4,
+        "Params": {
+            "n_estimators": 689,
+            "max_depth": 25,
+            "criterion": "gini",
+            "min_samples_split": 19,
+            "min_samples_leaf": 32,
+            "max_features": null
+        },
+        "Values": [
+            0.8782756891574509,
+            0.038920363245583414
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 5,
+        "Params": {
+            "n_estimators": 551,
+            "max_depth": 13,
+            "criterion": "entropy",
+            "min_samples_split": 11,
+            "min_samples_leaf": 6,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.8792391678188889,
+            0.04285289102725041
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 6,
+        "Params": {
+            "n_estimators": 757,
+            "max_depth": 14,
+            "criterion": "gini",
+            "min_samples_split": 28,
+            "min_samples_leaf": 31,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8663116993260888,
+            0.0261429607398584
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 7,
+        "Params": {
+            "n_estimators": 800,
+            "max_depth": 26,
+            "criterion": "gini",
+            "min_samples_split": 26,
+            "min_samples_leaf": 28,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8740215833511129,
+            0.035301120180608846
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 8,
+        "Params": {
+            "n_estimators": 239,
+            "max_depth": 20,
+            "criterion": "log_loss",
+            "min_samples_split": 22,
+            "min_samples_leaf": 8,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.894877039800494,
+            0.06139001434848024
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 9,
+        "Params": {
+            "n_estimators": 296,
+            "max_depth": 20,
+            "criterion": "log_loss",
+            "min_samples_split": 5,
+            "min_samples_leaf": 18,
+            "max_features": null
+        },
+        "Values": [
+            0.8880147282395076,
+            0.053744533040749776
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 10,
+        "Params": {
+            "n_estimators": 671,
+            "max_depth": 17,
+            "criterion": "gini",
+            "min_samples_split": 27,
+            "min_samples_leaf": 14,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8810526399280029,
+            0.045902286685821705
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 11,
+        "Params": {
+            "n_estimators": 249,
+            "max_depth": 17,
+            "criterion": "log_loss",
+            "min_samples_split": 16,
+            "min_samples_leaf": 5,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8927952036459648,
+            0.061113431926696896
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 12,
+        "Params": {
+            "n_estimators": 955,
+            "max_depth": 27,
+            "criterion": "entropy",
+            "min_samples_split": 9,
+            "min_samples_leaf": 14,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.889536944171301,
+            0.052972902290126765
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 13,
+        "Params": {
+            "n_estimators": 815,
+            "max_depth": 25,
+            "criterion": "gini",
+            "min_samples_split": 16,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.8999868110305573,
+            0.07067648286953376
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 14,
+        "Params": {
+            "n_estimators": 802,
+            "max_depth": 20,
+            "criterion": "entropy",
+            "min_samples_split": 20,
+            "min_samples_leaf": 26,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8758582964865894,
+            0.03534170926116213
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 15,
+        "Params": {
+            "n_estimators": 340,
+            "max_depth": 14,
+            "criterion": "gini",
+            "min_samples_split": 11,
+            "min_samples_leaf": 22,
+            "max_features": null
+        },
+        "Values": [
+            0.8747555795060611,
+            0.033426603525903965
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 16,
+        "Params": {
+            "n_estimators": 121,
+            "max_depth": 20,
+            "criterion": "entropy",
+            "min_samples_split": 29,
+            "min_samples_leaf": 15,
+            "max_features": null
+        },
+        "Values": [
+            0.8906679619422906,
+            0.05888161441934523
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 17,
+        "Params": {
+            "n_estimators": 772,
+            "max_depth": 18,
+            "criterion": "gini",
+            "min_samples_split": 14,
+            "min_samples_leaf": 16,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.8824929457078727,
+            0.04584521949029079
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 18,
+        "Params": {
+            "n_estimators": 761,
+            "max_depth": 25,
+            "criterion": "entropy",
+            "min_samples_split": 11,
+            "min_samples_leaf": 6,
+            "max_features": null
+        },
+        "Values": [
+            0.9091213442945147,
+            0.08153736821668003
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 19,
+        "Params": {
+            "n_estimators": 176,
+            "max_depth": 27,
+            "criterion": "gini",
+            "min_samples_split": 17,
+            "min_samples_leaf": 18,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.8831796744296749,
+            0.04696312428066092
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 20,
+        "Params": {
+            "n_estimators": 387,
+            "max_depth": 15,
+            "criterion": "entropy",
+            "min_samples_split": 11,
+            "min_samples_leaf": 5,
+            "max_features": null
+        },
+        "Values": [
+            0.8884105792477855,
+            0.06494476433328233
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 21,
+        "Params": {
+            "n_estimators": 957,
+            "max_depth": 12,
+            "criterion": "log_loss",
+            "min_samples_split": 13,
+            "min_samples_leaf": 16,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.869739369464018,
+            0.027879920476291998
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 22,
+        "Params": {
+            "n_estimators": 678,
+            "max_depth": 12,
+            "criterion": "log_loss",
+            "min_samples_split": 2,
+            "min_samples_leaf": 9,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.8725820949840065,
+            0.03318397943025166
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 23,
+        "Params": {
+            "n_estimators": 307,
+            "max_depth": 15,
+            "criterion": "log_loss",
+            "min_samples_split": 26,
+            "min_samples_leaf": 21,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8741068127373552,
+            0.034220373355856835
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 24,
+        "Params": {
+            "n_estimators": 289,
+            "max_depth": 29,
+            "criterion": "log_loss",
+            "min_samples_split": 24,
+            "min_samples_leaf": 32,
+            "max_features": "sqrt"
+        },
+        "Values": [
+            0.8743582772186114,
+            0.032160464159486056
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 25,
+        "Params": {
+            "n_estimators": 482,
+            "max_depth": 21,
+            "criterion": "entropy",
+            "min_samples_split": 27,
+            "min_samples_leaf": 8,
+            "max_features": null
+        },
+        "Values": [
+            0.8971496172685333,
+            0.06745148312865612
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 26,
+        "Params": {
+            "n_estimators": 764,
+            "max_depth": 11,
+            "criterion": "gini",
+            "min_samples_split": 9,
+            "min_samples_leaf": 30,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8587971563014616,
+            0.018327094490036933
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 27,
+        "Params": {
+            "n_estimators": 127,
+            "max_depth": 8,
+            "criterion": "gini",
+            "min_samples_split": 28,
+            "min_samples_leaf": 18,
+            "max_features": "log2"
+        },
+        "Values": [
+            0.8476529023698083,
+            0.009789840407880824
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 28,
+        "Params": {
+            "n_estimators": 181,
+            "max_depth": 18,
+            "criterion": "entropy",
+            "min_samples_split": 9,
+            "min_samples_leaf": 18,
+            "max_features": null
+        },
+        "Values": [
+            0.8854501189798188,
+            0.05137367799698796
+        ],
+        "Trial State": "COMPLETE"
+    },
+    {
+        "Trial Number": 29,
+        "Params": {
+            "n_estimators": 410,
+            "max_depth": 27,
+            "criterion": "gini",
+            "min_samples_split": 3,
+            "min_samples_leaf": 12,
+            "max_features": null
+        },
+        "Values": [
+            0.8957454486624993,
+            0.06651526541104003
+        ],
+        "Trial State": "COMPLETE"
+    }
+]

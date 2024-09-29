@@ -62,6 +62,11 @@ PARAMS_RF_RFE = {
     "random_state": 42
 }
 
+TARGET_MAPPING = {
+    "Poor": 0,
+    "Standard": 1,
+    "Good": 2
+}
 
 
 
