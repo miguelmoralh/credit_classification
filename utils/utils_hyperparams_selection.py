@@ -7,13 +7,28 @@ from catboost import CatBoostClassifier
 import lightgbm as lgb
 
 def get_model(trial, model_type, cat_features):
+    """
+    Suggests and returns a model based on the specified `model_type` and hyperparameters.
+    
+    Arguments:
+    - trial: An Optuna trial object for hyperparameter optimization.
+    - model_type: A string specifying the type of model to create ('decision_tree', 'random_forest', 'xgboost', 'catboost', 'lightgbm').
+    - cat_features: A list of categorical features (only used for CatBoost).
+
+    Returns:
+    - An instantiated model with hyperparameters suggested from the Optuna trial.
+    
+    The function creates different machine learning models such as Decision Trees, Random Forests, XGBoost, CatBoost, and LightGBM.
+    For each model, it tunes various hyperparameters using `trial.suggest_*` methods and returns the instantiated model.
+    """
     if model_type == "decision_tree":
+        # Create and return a DecisionTreeClassifier with suggested hyperparameters
         max_depth = trial.suggest_int("max_depth", 2, 40) 
-        min_samples_split = trial.suggest_int("min_samples_split", 2, 32) # Minimum samples required to split an internal node
-        min_samples_leaf = trial.suggest_int("min_samples_leaf", 1, 32) # Minimum samples required to create a leaf
-        max_features = trial.suggest_categorical('max_features', ['sqrt', 'log2', None]) # Number of features considered when looking for the best split
-        criterion = trial.suggest_categorical('criterion', ['gini', 'entropy']) # Function to measure the quality of the split
-        splitter = trial.suggest_categorical('splitter', ['best', 'random']) # Strategy used to choose the split
+        min_samples_split = trial.suggest_int("min_samples_split", 2, 32) 
+        min_samples_leaf = trial.suggest_int("min_samples_leaf", 1, 32)
+        max_features = trial.suggest_categorical('max_features', ['sqrt', 'log2', None]) 
+        criterion = trial.suggest_categorical('criterion', ['gini', 'entropy']) 
+        splitter = trial.suggest_categorical('splitter', ['best', 'random']) 
         return DecisionTreeClassifier(
             max_depth=max_depth,
             min_samples_split=min_samples_split,
@@ -24,12 +39,13 @@ def get_model(trial, model_type, cat_features):
             random_state=42
         )
     elif model_type == "random_forest":
-        n_estimators = trial.suggest_int("n_estimators", 100, 1000) # Number of decision trees
-        max_depth = trial.suggest_int("max_depth", 5, 30) # Maximum depth of each decision tree
-        criterion = trial.suggest_categorical('criterion', ["gini", "entropy", "log_loss"]) # Function to measure the quality of the split
-        min_samples_split = trial.suggest_int("min_samples_split", 2, 32) # Minimum samples required to split an internal node
-        min_samples_leaf = trial.suggest_int("min_samples_leaf", 1, 32) # Minimum samples required to create a leaf
-        max_features = trial.suggest_categorical('max_features', ['sqrt', 'log2', None]) # Number of features considered when looking for the best split
+        # Create and return a RandomForestClassifier with suggested hyperparameters
+        n_estimators = trial.suggest_int("n_estimators", 100, 1000) 
+        max_depth = trial.suggest_int("max_depth", 5, 30) 
+        criterion = trial.suggest_categorical('criterion', ["gini", "entropy", "log_loss"]) 
+        min_samples_split = trial.suggest_int("min_samples_split", 2, 32) 
+        min_samples_leaf = trial.suggest_int("min_samples_leaf", 1, 32) 
+        max_features = trial.suggest_categorical('max_features', ['sqrt', 'log2', None]) 
         return RandomForestClassifier(
             n_estimators=n_estimators,
             max_depth=max_depth,
@@ -40,13 +56,14 @@ def get_model(trial, model_type, cat_features):
             random_state=42
         )
     elif model_type == "xgboost":
-        n_estimators = trial.suggest_int("n_estimators", 1000, 3000) # Number of decision trees
-        max_depth = trial.suggest_int("max_depth", 1, 10) # Maximum depth of each estimator
-        learning_rate = trial.suggest_float("learning_rate", 1e-3, 0.1) # Scales the contribution of each decision tree
-        subsample = trial.suggest_float('subsample', 0.1, 1.0, log=True) # Proportion of dataset to be considered when building each tree
-        colsample_bytree = trial.suggest_float("colsample_bytree", 0.1, 1.0, log=True) # Proportion of features to be considered for each tree 
-        min_child_weight = trial.suggest_int('min_child_weight', 1, 20) # Minimum sum of instances in a child node (every node except the root node)
-        alpha = trial.suggest_float("alpha", 1e-8, 1.0, log=True) # L1 regularization weight
+        # Create and return an XGBClassifier with suggested hyperparameters
+        n_estimators = trial.suggest_int("n_estimators", 1000, 3000) 
+        max_depth = trial.suggest_int("max_depth", 1, 10) 
+        learning_rate = trial.suggest_float("learning_rate", 1e-3, 0.1) 
+        subsample = trial.suggest_float('subsample', 0.1, 1.0, log=True) 
+        colsample_bytree = trial.suggest_float("colsample_bytree", 0.1, 1.0, log=True) 
+        min_child_weight = trial.suggest_int('min_child_weight', 1, 20) 
+        alpha = trial.suggest_float("alpha", 1e-8, 1.0, log=True)
         return xgb.XGBClassifier(
             n_estimators=n_estimators,
             max_depth=max_depth,
@@ -60,63 +77,60 @@ def get_model(trial, model_type, cat_features):
             num_class=3 # Set number of classes 
         )
         
-        '''
-        The log scale is used for the learning rate because it will try more values close to 0.001, 
-        as small learning rates with a large number of trees tend to be more stable.
-        
-        '''
     elif model_type == "catboost":
-        iterations = trial.suggest_int("iterations", 1000, 3000) # Number of decision trees (estimators)
-        learning_rate = trial.suggest_float("learning_rate", 1e-3, 0.1, log=True) # Scales the contribution of each decision tree
-        depth = trial.suggest_int("depth", 1, 10) # Maximum depth of each estimator
-        colsample_bylevel = trial.suggest_float('colsample_bylevel', 0.1, 1.0, log=True) # Proportion of features to be considered when determining the best split
-        min_data_in_leaf = trial.suggest_int('min_data_in_leaf', 1, 100) # Minimum number of samples required to create a leaf
-        bootstrap_type = trial.suggest_categorical('bootstrap_type', ["Bernoulli", "Bayesian"]) # Defines the method for sampling the weights of object
+        # Create and return a CatBoostClassifier with suggested hyperparameters
+        iterations = trial.suggest_int("iterations", 1000, 3000) 
+        learning_rate = trial.suggest_float("learning_rate", 1e-3, 0.1, log=True) 
+        depth = trial.suggest_int("depth", 1, 10) 
+        colsample_bylevel = trial.suggest_float('colsample_bylevel', 0.1, 1.0, log=True)
+        min_data_in_leaf = trial.suggest_int('min_data_in_leaf', 1, 100) 
+        bootstrap_type = trial.suggest_categorical('bootstrap_type', ["Bernoulli", "Bayesian"]) 
         if bootstrap_type == "Bayesian":
-            bagging_temperature = trial.suggest_float("bagging_temperature", 0, 10) # Use the Bayesian bootstrap to assign random weights to objects.
+            bagging_temperature = trial.suggest_float("bagging_temperature", 0, 10) 
             return CatBoostClassifier(
                 iterations=iterations,
                 learning_rate=learning_rate,
                 depth=depth,
                 colsample_bylevel=colsample_bylevel,
                 min_data_in_leaf=min_data_in_leaf,
-                bootstrap_type=bootstrap_type, # Defines the method for sampling the weights of object
+                bootstrap_type=bootstrap_type, 
                 bagging_temperature=bagging_temperature,
                 random_state=42,
                 cat_features=cat_features,
                 objective='MultiClass',  # Specify the objective for multiclass classification
-                verbose=0 # Turn off logging for CatBoost
+                verbose=0 
             )
             
         elif bootstrap_type == "Bernoulli":
-            subsample = trial.suggest_float('subsample', 0.1, 1.0, log=True) # Proportion of dataset to be considered when building each tree
+            subsample = trial.suggest_float('subsample', 0.1, 1.0, log=True) 
             return CatBoostClassifier(
                 iterations=iterations,
                 learning_rate=learning_rate,
                 depth=depth,
                 colsample_bylevel=colsample_bylevel,
                 min_data_in_leaf=min_data_in_leaf,
-                bootstrap_type=bootstrap_type, # Defines the method for sampling the weights of object
+                bootstrap_type=bootstrap_type, 
                 subsample=subsample,
                 random_state=42,
                 cat_features=cat_features,
                 objective='MultiClass',  # Specify the objective for multiclass classification
-                verbose=0 # Turn off logging for CatBoost
+                verbose=0 
             )
     elif model_type == "lightgbm":
-        n_estimators = trial.suggest_int("n_estimators", 1000, 3000) # Number of decision trees
-        learning_rate = trial.suggest_float("learning_rate", 1e-3, 0.1, log=True) # Scales the contribution of each decision tree
-        num_leaves = trial.suggest_int("num_leaves", 2, 2**10) # Maximum number of terminal nodes (leaves)
-        subsample = trial.suggest_float('subsample', 0.1, 1, log=True) # Proportion of dataset to be randomly considered when training each tree
-        colsample_bytree = trial.suggest_float('colsample_bytree', 0.1, 1.0, log=True) # Proportion of features to be considered for each tree
-        min_data_in_leaf = trial.suggest_int("min_data_in_leaf", 1, 100) # Minimum number of samples in a leaf node
-        lambda_l1 = trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True) # L1 regularization
-        lambda_l2 = trial.suggest_float("lambda_l2", 1e-8, 10.0, log=True) # L2 regularization 
+        # Create and return an LGBMClassifier with suggested hyperparameters
+        n_estimators = trial.suggest_int("n_estimators", 1000, 3000)
+        learning_rate = trial.suggest_float("learning_rate", 1e-3, 0.1, log=True) 
+        num_leaves = trial.suggest_int("num_leaves", 2, 2**10) 
+        subsample = trial.suggest_float('subsample', 0.1, 1, log=True) 
+        colsample_bytree = trial.suggest_float('colsample_bytree', 0.1, 1.0, log=True) 
+        min_data_in_leaf = trial.suggest_int("min_data_in_leaf", 1, 100) 
+        lambda_l1 = trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True) 
+        lambda_l2 = trial.suggest_float("lambda_l2", 1e-8, 10.0, log=True)  
         return lgb.LGBMClassifier(
             n_estimators=n_estimators,
             learning_rate=learning_rate,
             num_leaves=num_leaves,
-            bagging_freq = 1, # Frequency at which data is sampled (1 means that is resampled before every tree) 
+            bagging_freq = 1, 
             subsample=subsample, 
             colsample_bytree=colsample_bytree,
             min_data_in_leaf = min_data_in_leaf,
@@ -125,47 +139,99 @@ def get_model(trial, model_type, cat_features):
             random_state=42,
             verbosity=-1,
             objective="multiclass", # Set objective for multiclass classification
-            num_class=3 # Set number of classes
+            num_class=3 
         )
     
 def objective(trial, model_type, X, y, imputer, encoder, scorer, scv):
+    """
+    Objective function for Optuna to optimize model performance.
+
+    Arguments:
+    - trial: An Optuna trial object for hyperparameter optimization.
+    - model_type: A string specifying the type of model to create ('decision_tree', 'random_forest', 'xgboost', 'catboost', 'lightgbm').
+    - X: Features (input data) as a pandas DataFrame.
+    - y: Labels (target values) as a pandas Series.
+    - imputer: A scikit-learn transformer to handle missing values.
+    - encoder: A scikit-learn transformer to encode categorical features.
+    - scorer: A custom scoring function (e.g., ROC AUC) to evaluate the model.
+    - scv: Stratified K-Folds cross-validator.
+
+    Returns:
+    - mean_score: The average validation score across cross-validation folds.
+    - mean_overfitting_score: The average overfitting score, which is the difference between training and validation scores.
+    
+    The function performs cross-validation on a pipeline that includes preprocessing (imputer, encoder) and the model.
+    It calculates both the validation score and overfitting (difference between train and validation scores).
+    """
     model = get_model(trial, model_type, cat_features=None)
+    
+    # Define pipeline for preprocessing and modeling
     pipe = Pipeline([
         ('imputer', imputer),
         ('encoder', encoder),
         ('model', model)
     ])
+    
+    # Lists to store validation scores and overfitting measures
     scores_val_list = []
     scores_overfitting_list = []
     
     # Stratified cross validation
     for train_index, val_index in scv.split(X.copy(), y.copy()):
+        # Split data into training and validation sets
         X_train, X_val = X.copy().iloc[train_index], X.copy().iloc[val_index]
         y_train, y_val = y.copy().iloc[train_index], y.copy().iloc[val_index]
         
+        # Fit the pipeline and predict probabilities
         pipe.fit(X_train, y_train)
         y_pred_train = pipe.predict_proba(X_train)
         y_pred_test = pipe.predict_proba(X_val)
         
-        # Save score in train to calculate the overfitting 
+        # Calculate scores for training and validation sets
         score_train = scorer._score_func(y_train, y_pred_train, **scorer._kwargs)
         score_val = scorer._score_func(y_val, y_pred_test, **scorer._kwargs)
+        
+        # Calculate overfitting (difference between train and validation scores)
         overfitting_score = score_train - score_val
         scores_val_list.append(score_val)
         scores_overfitting_list.append(overfitting_score)
     
+    # Return mean validation score and mean overfitting score
     mean_score = np.mean(scores_val_list)
     mean_overfitting_score = np.mean(scores_overfitting_list)
     
     return mean_score, mean_overfitting_score
 
-# Function done to treat catboost as no need to encode categorical features 
-# NO PIPELINE HERE BECAUSE OF DIFFICULTIES BETWEEN SKLEARN AND OTHER LIBRARIES
 def objective_categorical(trial, model_type, X, y, imputer, scorer, scv, cat_features): 
+    """
+    Objective function specifically for CatBoost models (which handle categorical features internally).
+
+    Arguments:
+    - trial: An Optuna trial object for hyperparameter optimization.
+    - model_type: A string specifying the type of model to create (should be 'catboost').
+    - X: Features (input data) as a pandas DataFrame.
+    - y: Labels (target values) as a pandas Series.
+    - imputer: A scikit-learn transformer to handle missing values.
+    - scorer: A custom scoring function (e.g., ROC AUC) to evaluate the model.
+    - scv: Stratified K-Folds cross-validator.
+    - cat_features: List of categorical features (used only for CatBoost).
+    
+    Returns:
+    - mean_score: The average validation score across cross-validation folds.
+    - mean_overfitting_score: The average overfitting score, which is the difference between training and validation scores.
+    
+    Similar to the general `objective` function, but tailored for CatBoost models, which do not require categorical encoding.
+    It handles missing data imputation but skips encoding of categorical features.
+    """
     model = get_model(trial, model_type, cat_features)
+    
+    # Lists to store validation scores and overfitting measures
     scores_val_list = []
     scores_overfitting_list = []
+    
+    # Stratified cross-validation
     for train_index, val_index in scv.split(X.copy(), y.copy()):
+         # Split data into training and validation sets
         X_train, X_val = X.copy().iloc[train_index], X.copy().iloc[val_index]
         y_train, y_val = y.copy().iloc[train_index], y.copy().iloc[val_index]
         
@@ -173,17 +239,21 @@ def objective_categorical(trial, model_type, X, y, imputer, scorer, scv, cat_fea
         X_train_imputed = imputer.fit_transform(X_train)
         X_test_imputed = imputer.transform(X_val)
         
+         # Train the CatBoost model and predict probabilities
         model.fit(X_train_imputed, y_train)
         y_pred_train = model.predict_proba(X_train_imputed)
         y_pred_test = model.predict_proba(X_test_imputed)
         
-        # Save score in train to calculate the overfitting 
+        # Calculate scores for training and validation sets
         score_train = scorer._score_func(y_train, y_pred_train, **scorer._kwargs)
         score_val = scorer._score_func(y_val, y_pred_test, **scorer._kwargs)
+        
+        # Calculate overfitting (difference between train and validation scores)
         overfitting_score = score_train - score_val
         scores_val_list.append(score_val)
         scores_overfitting_list.append(overfitting_score)
 
+    # Return mean validation score and mean overfitting score
     mean_score = np.mean(scores_val_list)
     mean_overfitting_score = np.mean(scores_overfitting_list)
     

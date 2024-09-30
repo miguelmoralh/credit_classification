@@ -24,20 +24,21 @@ import optuna
 from optuna.samplers import NSGAIISampler
 import functools
 
-# Load dataframe
+# Load the dataset into a pandas DataFrame
 df = pd.read_csv('data/train.csv')
 
 # Separate the target from the dataframe
 x = df.drop(columns=['Credit_Score'])
 y = df['Credit_Score']
 
-# Encode the target variable 'y' using the mapping
+# Encode the target variable 'y' using the provided mapping
 y_encoded = y.map(TARGET_MAPPING)
 
 # Split the data
 X_train, X_test, y_train, y_test = train_test_split(x, y_encoded, test_size=0.3, random_state=4)
 
 ### DATASET CLEANNING
+
 data_cleaner = DataCleanning(
     object_to_float=OBJECT_TO_FLOAT,                      
     object_to_int=OBJECT_TO_INT,
@@ -48,25 +49,29 @@ data_cleaner = DataCleanning(
     ids_threshold = 0.12, 
     unique_threshold = 1
 )
+
+# Clean the training and test data
 X_train_cleaned = data_cleaner.fit_transform(X_train.copy())
 X_test_cleaned = data_cleaner.transform(X_test.copy())
 
-# Get the path of the stored selected features in 02_main_rfe_fs.py
+# Get the path of the stored selected features in 02_main_rfe_fs.py 
 file_path = "logs/selected_features/rfe_selected_features.txt"
 
-# Open the file and read the lines
+# Open the file and read the selected feature names
 with open(file_path, 'r') as file:
     features_list = [line.strip() for line in file.readlines()]
 
-# Filter the common columns between features_list and X_train_cleaned (handling encoding renaming columns)
+# Filter the common columns between features_list and X_train_cleaned
 original_features = match_features(features_list, X_train_cleaned)
 
-# Filter the dataset with dependence selected features
+# Filter the dataset with selected features
 X_train_filtered = X_train_cleaned[original_features]
 X_test_filtered = X_test_cleaned[original_features]
 
-# Identify categorical features in the dataframe
+# Identify categorical features in the filtered training dataset
 categorical_features = X_train_filtered.select_dtypes(include=['object', 'category']).columns.tolist()
+
+### HYPERPARAMETERS OPTIMIZATION using OPTUNA
 
 # Initialize imputer and encoder
 imputer = ImputeMissing()  
@@ -75,15 +80,11 @@ encoder = CategoricalEncoder(
     categorical_variables=CATEGORICAL_NON_ORDINAL_VARIABLES
 )
 
-### HYPERPARAMETERS OPTIMIZATION using OPTUNA
-
-# Define the scorer for multiclass ROC AUC, the stratified cross validation and the multi-objective optimizer
+# Define the scorer for multiclass ROC AUC and the stratified cross-validation scheme
 scorer_roc_auc = make_scorer(roc_auc_score, multi_class='ovo', needs_proba=True)
 scv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-
-# Multi-objective optimizer where the score (ROC AUC) is maximized and the overfitting is minimized
-# Create separate studies for each model
+# Create separate multi-objective optimizers (ROC AUC maximized, overfitting minimized) studies for each model 
 study_dt = optuna.create_study(directions=["maximize", "minimize"], sampler=NSGAIISampler())
 study_rf = optuna.create_study(directions=["maximize", "minimize"], sampler=NSGAIISampler())
 study_xgb = optuna.create_study(directions=["maximize", "minimize"], sampler=NSGAIISampler())
@@ -92,7 +93,7 @@ study_lgbm = optuna.create_study(directions=["maximize", "minimize"], sampler=NS
 
 ## DECISION TREE
 
-# Define the objective function with additional arguments using functools.partial and optimize
+# Define the objective function for Decision Tree with additional arguments using functools.partial
 objective_dt = functools.partial(
     objective, 
     model_type = "decision_tree", 
@@ -103,14 +104,12 @@ objective_dt = functools.partial(
     scorer=scorer_roc_auc, 
     scv=scv
 )
-study_dt.optimize(objective_dt, n_trials=30, show_progress_bar=True)
-
-# Save trials for Decision Tree
-save_study_trials_to_json(study_dt, "decision_tree")
+study_dt.optimize(objective_dt, n_trials=30, show_progress_bar=True) # Optimize the study for Decision Tree
+save_study_trials_to_json(study_dt, "decision_tree") # Save the optimization results for Decision Tree
 
 ## RANDOM FOREST
 
-# Define the objective function with additional arguments using functools.partial and optimize
+# Define the objective function for Random Forest with additional arguments using functools.partial
 objective_rf = functools.partial(
     objective, 
     model_type = "random_forest", 
@@ -121,17 +120,13 @@ objective_rf = functools.partial(
     scorer=scorer_roc_auc, 
     scv=scv
 )
-study_rf.optimize(objective_rf, n_trials=30, show_progress_bar=True)
-
-# Save trials for Random Forest
-save_study_trials_to_json(study_rf, "random_forest")
-
-# Plot and save Pareto front for Random Forest
-save_pareto_front_plot(study_rf, "random_forest")
+study_rf.optimize(objective_rf, n_trials=30, show_progress_bar=True) # Optimize the study for Random Forest
+save_study_trials_to_json(study_rf, "random_forest") # Save the optimization results for Random Forest
+save_pareto_front_plot(study_rf, "random_forest") # Plot and save the Pareto front for Random Forest
 
 ## XGBOOST
 
-# Define the objective function with additional arguments using functools.partial and optimize
+# Define the objective function for XGBoost with additional arguments using functools.partial
 objective_xgb = functools.partial(
     objective, 
     model_type = "xgboost", 
@@ -142,17 +137,13 @@ objective_xgb = functools.partial(
     scorer=scorer_roc_auc, 
     scv=scv
 )
-study_xgb.optimize(objective_xgb, n_trials=30, show_progress_bar=True)
-
-# Save trials for XGBoost
-save_study_trials_to_json(study_xgb, "xgboost")
+study_xgb.optimize(objective_xgb, n_trials=30, show_progress_bar=True) # Optimize the study for XGBoost
+save_study_trials_to_json(study_xgb, "xgboost") # Save the optimization results for XGBoost
 
 ## CATBOOST
 
-# Define the objective function with additional arguments using functools.partial and optimize
-
-# Check if there are categorical features (maybe they have been eliminated by the FEATURE SELECTION TECHNIQUES)
-if not categorical_features:
+# Define the objective function for CatBoost with additional arguments using functools.partial
+if not categorical_features: # If no categorical features exist
     objective_cb = functools.partial(
             objective, 
             model_type = "catboost", 
@@ -163,7 +154,7 @@ if not categorical_features:
             scorer=scorer_roc_auc, 
             scv=scv
     )
-else:
+else: # If there are categorical features
     objective_cb = functools.partial(
         objective_categorical, 
         model_type = "catboost", 
@@ -172,17 +163,14 @@ else:
         imputer=imputer,  
         scorer=scorer_roc_auc, 
         scv=scv,
-        cat_features=categorical_features
+        cat_features=categorical_features # Specify the categorical features
     )
-
-study_cb.optimize(objective_cb, n_trials=30, show_progress_bar=True)
-
-# Save trials for Catboost
-save_study_trials_to_json(study_cb, "catboost")
+study_cb.optimize(objective_cb, n_trials=30, show_progress_bar=True) # Optimize the study for CatBoost
+save_study_trials_to_json(study_cb, "catboost") # Save the optimization results for CatBoost
 
 ## LIGHTGBM
 
-# Define the objective function with additional arguments using functools.partial and optimize
+# Define the objective function for LightGBM with additional arguments using functools.partial
 objective_lgbm = functools.partial(
     objective, 
     model_type = "lightgbm", 
@@ -193,13 +181,9 @@ objective_lgbm = functools.partial(
     scorer=scorer_roc_auc, 
     scv=scv
 )
-study_lgbm.optimize(objective_lgbm, n_trials=30, show_progress_bar=True)
-
-# Save trials for Lightgbm
-save_study_trials_to_json(study_lgbm, "lightgbm")
-
-# Plot and save Pareto front for Lightgbm
-save_pareto_front_plot(study_lgbm, "lightgbm")
+study_lgbm.optimize(objective_lgbm, n_trials=30, show_progress_bar=True) # Optimize the study for LightGBM
+save_study_trials_to_json(study_lgbm, "lightgbm") # Save the optimization results for LightGBM
+save_pareto_front_plot(study_lgbm, "lightgbm") # Plot and save the Pareto front for LightGBM
 
 
 

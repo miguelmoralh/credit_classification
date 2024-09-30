@@ -13,7 +13,18 @@ from sklearn.metrics import brier_score_loss
 def save_study_trials_to_json(study, model_name, output_dir="logs/optuna_trials"):
     """
     Save the trials of an Optuna study to a JSON file.
-    
+
+    This function iterates over the trials from an Optuna study object, extracts relevant
+    information (trial number, parameters, values, and state), and saves it into a JSON file.
+    The file is saved in the specified output directory under the name '{model_name}_trials.json'.
+
+    Args:
+        study (optuna.Study): The Optuna study object containing trial data.
+        model_name (str): The name of the model for which the trials are being saved.
+        output_dir (str, optional): Directory where the JSON file should be saved. Defaults to "logs/optuna_trials".
+
+    Returns:
+        None
     """
     # Create the file path
     trials_file_path = f"{output_dir}/{model_name}_trials.json"
@@ -38,6 +49,17 @@ def save_study_trials_to_json(study, model_name, output_dir="logs/optuna_trials"
 def save_pareto_front_plot(study, model_name, output_dir="logs/plots"):
     """
     Plot and save the Pareto front for an Optuna study.
+
+    This function creates a Pareto front plot for a given Optuna study, which visualizes
+    the trade-off between two objectives, such as ROC AUC and overfitting. The plot is then saved as a PNG file.
+
+    Args:
+        study (optuna.Study): The Optuna study object containing trial data.
+        model_name (str): The name of the model for which the Pareto front is being plotted.
+        output_dir (str, optional): Directory where the plot should be saved. Defaults to "logs/plots".
+
+    Returns:
+        None
     """
     # Create the file path
     plot_file_path = f"{output_dir}/pareto_{model_name}.png"
@@ -52,8 +74,18 @@ def save_pareto_front_plot(study, model_name, output_dir="logs/plots"):
     
 def find_best_trial(logs_dir, overfitting_threshold=0.02):
     """
-    Function to find the best trial over all models from the json optuna optimization studies. 
-    
+    Function to find the best trial across multiple models from Optuna optimization JSON logs.
+
+    This function looks through multiple JSON files in a specified directory (each representing
+    the trials of different models), checks the overfitting values against a threshold, and 
+    selects the best trial based on the highest ROC AUC score while meeting the overfitting criteria.
+
+    Args:
+        logs_dir (str): Directory containing the JSON logs of Optuna trials.
+        overfitting_threshold (float, optional): Maximum acceptable overfitting score. Defaults to 0.02.
+
+    Returns:
+        dict: A dictionary with information about the best trial (model name, trial number, ROC AUC, overfitting, and parameters).
     """
     best_trial = None
 
@@ -73,7 +105,7 @@ def find_best_trial(logs_dir, overfitting_threshold=0.02):
                 for trial in trials:
                     roc_auc, overfitting = trial['Values']
                     
-                    # Si el overfitting es menor que el umbral, evaluamos si es el mejor ROC AUC hasta ahora
+                    # If overfitting is below the threshold, check if this is the best ROC AUC so far
                     if overfitting < overfitting_threshold:
                         if best_trial is None or roc_auc > best_trial['roc_auc']:
                             best_trial = {
@@ -88,8 +120,18 @@ def find_best_trial(logs_dir, overfitting_threshold=0.02):
 
 def get_best_model(best_trial_info):
     """
-    This function returns the model instance based on the model name in the best_trial_info.
-    It handles LightGBM, DecisionTree, XGBoost, RandomForest, and CatBoost.
+    Return the model instance based on the best trial information.
+
+    This function returns a model object instantiated with the parameters from the best trial
+    found in the Optuna optimization. It supports models from LightGBM, DecisionTree, XGBoost,
+    RandomForest, and CatBoost.
+
+    Args:
+        best_trial_info (dict): A dictionary containing the best trial information, including
+                                the model name and its parameters.
+
+    Returns:
+        model: The machine learning model instantiated with the best parameters.
     """
     model_name = best_trial_info['model']
     params = best_trial_info['params']
@@ -103,22 +145,33 @@ def get_best_model(best_trial_info):
     elif model_name == 'xgboost':
         model = xgb.XGBClassifier(**params)
     elif model_name == 'catboost':
-        model = CatBoostClassifier(**params, verbose=0)  # verbose=0 to suppress CatBoost training logs
+        model = CatBoostClassifier(**params, verbose=0)  
     else:
         raise ValueError(f"Model {model_name} not recognized.")
     
     return model
     
-'''
-Remember that the decisions ARE TAKEN WITH TRAIN DATA BY USING VALIDATION, AND THEN CHANGES ARE APPLIED TO TEST.
-That is why we use only training data in the function.
 
-The Brier score measures the mean squared difference between the predicted probabilities 
-and the actual outcomes. Lower Brier scores indicate better calibration.
-'''
-
-# Function to evaluate calibration methods and return the best one based on Brier score
 def optimize_calibration_multiclass(model, X_train, y_train):
+    """
+    Function to optimize the calibration of a multiclass model using Brier score.
+
+    This function compares different calibration methods ('none', 'sigmoid', 'isotonic') for a given model 
+    and training data. It computes the Brier score (a metric to assess the accuracy of predicted probabilities) 
+    for each method and returns the method with the lowest score.
+    
+    In the whole repo, all decisions had been taken in the training set by using cross val and applied then in test set.
+    Here as we previously marked a limit of 0.02 of overfitting of the trained model, we avoid cross validation (irrelevant)
+    and we directly decide the best calibration method with the entire train set (cv='prefit'). 
+    
+    Args:
+        model: The machine learning model to be calibrated.
+        X_train: Training feature data.
+        y_train: Training labels.
+
+    Returns:
+        tuple: The best calibration method and its corresponding Brier score.
+    """
     
     # Define calibration methods to compare
     calibration_methods = ['none', 'sigmoid', 'isotonic']

@@ -1,4 +1,7 @@
-# Script with the manually selected features neeeded in the data preprocessing
+"""
+Script with the manually selected features neeeded along the scripts
+"""
+
 OBJECT_TO_FLOAT = [
     'Annual_Income', 
     'Changed_Credit_Limit', 
