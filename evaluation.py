@@ -12,7 +12,6 @@ import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
 # Load the dataset into a pandas DataFrame
 df = pd.read_csv('data/train.csv')
 

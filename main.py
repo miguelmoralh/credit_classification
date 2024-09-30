@@ -9,13 +9,13 @@ from utils.utils_hyp_opt import find_best_trial, get_best_model, optimize_calibr
 from data_cleanning import DataCleanning
 from imputer import ImputeMissing
 from cateorical_encoder import CategoricalEncoder
-import pandas as pd
-import os
-import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.calibration import calibration_curve
 from sklearn.pipeline import Pipeline
+import pandas as pd
+import os
+import joblib
 import matplotlib.pyplot as plt
 
 # Load the dataset into a pandas DataFrame

@@ -3,8 +3,6 @@ from constant import (
     MULTI_LABEL_BINARIZER_FEATURES, ORDINAL_VARIABLES, 
     CATEGORICAL_NON_ORDINAL_VARIABLES, PARAMS_RF_RFE, TARGET_MAPPING
 )
-import os
-import pandas as pd
 from utils.utils import match_features
 from data_cleanning import DataCleanning
 from imputer import ImputeMissing
@@ -15,6 +13,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import roc_auc_score, make_scorer
 from sklearn.model_selection import StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
+import os
+import pandas as pd
 
 # Load the dataset into a pandas DataFrame
 df = pd.read_csv('data/train.csv')

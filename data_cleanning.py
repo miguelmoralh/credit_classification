@@ -1,7 +1,7 @@
-import pandas as pd
-import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import MultiLabelBinarizer
+import pandas as pd
+import numpy as np
 
 class DataCleanning(BaseEstimator, TransformerMixin):
     """

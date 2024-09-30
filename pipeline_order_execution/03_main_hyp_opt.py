@@ -16,13 +16,13 @@ from data_cleanning import DataCleanning
 from imputer import ImputeMissing
 from cateorical_encoder import CategoricalEncoder
 from utils.utils_hyperparams_selection import objective, objective_categorical
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, make_scorer
 from sklearn.model_selection import StratifiedKFold
 import optuna
 from optuna.samplers import NSGAIISampler
 import functools
+import pandas as pd
 
 # Load the dataset into a pandas DataFrame
 df = pd.read_csv('data/train.csv')

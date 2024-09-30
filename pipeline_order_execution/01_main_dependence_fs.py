@@ -7,9 +7,9 @@ from data_cleanning import DataCleanning
 from imputer import ImputeMissing
 from cateorical_encoder import CategoricalEncoder
 from dependence_feature_selection import FeatureSelection
+from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
-from sklearn.model_selection import train_test_split
 
 # Load the dataset into a pandas DataFrame
 df = pd.read_csv('data/train.csv')

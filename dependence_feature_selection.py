@@ -1,8 +1,8 @@
-import pandas as pd
-import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from itertools import combinations
 from sklearn.metrics import normalized_mutual_info_score
+import pandas as pd
+import numpy as np
 
 class FeatureSelection(BaseEstimator, TransformerMixin):
     """

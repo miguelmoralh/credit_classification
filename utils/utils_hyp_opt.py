@@ -1,14 +1,14 @@
-import optuna.visualization as vis
-import json
-import os
 from catboost import CatBoostClassifier
 import lightgbm as lgb
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
-import xgboost as xgb
-import numpy as np
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import brier_score_loss
+import xgboost as xgb
+import optuna.visualization as vis
+import json
+import os
+
 
 def save_study_trials_to_json(study, model_name, output_dir="logs/optuna_trials"):
     """

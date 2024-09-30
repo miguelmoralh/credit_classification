@@ -1,10 +1,10 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
-import xgboost as xgb
 from sklearn.pipeline import Pipeline
-import numpy as np
+import xgboost as xgb
 from catboost import CatBoostClassifier
 import lightgbm as lgb
+import numpy as np
 
 def get_model(trial, model_type, cat_features):
     """
