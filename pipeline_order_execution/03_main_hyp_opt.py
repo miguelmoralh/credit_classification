@@ -11,11 +11,10 @@ from constant import (
     CATEGORICAL_NON_ORDINAL_VARIABLES, TARGET_MAPPING
 )
 from utils.utils import match_features
-from utils.utils_hyp_opt import save_pareto_front_plot, save_study_trials_to_json
+from utils.utils_hyp_opt import save_pareto_front_plot, save_study_trials_to_json, objective, objective_categorical
 from data_cleanning import DataCleanning
 from imputer import ImputeMissing
 from cateorical_encoder import CategoricalEncoder
-from utils.utils_hyperparams_selection import objective, objective_categorical
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, make_scorer
 from sklearn.model_selection import StratifiedKFold
