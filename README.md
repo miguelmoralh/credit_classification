@@ -1,5 +1,5 @@
 # Credit Classification Project
-This project tackles a multi-class credit classification task using historical loan data. The pipeline includes data cleaning, imputation of missing values, encoding categorical variables, feature selection (using Bivariate Dependence Feature Selection using Normalized Mutual Info and Recursive Feature Elimination), hyperparameter optimization with Optuna, model training, and probability calibration.
+This project tackles a multi-class credit classification task using historical loan data. The pipeline includes data cleaning, imputation of missing values, encoding categorical variables, feature selection (Bivariate Dependence Feature Selection using Normalized Mutual Info and Custom Recursive Feature Elimination using Cross Validation), hyperparameter optimization with Optuna, model training, and probability calibration.
 
 The model is evaluated using confusion matrix and explained using SHAP for feature importance insights. The pipeline is adaptable to other datasets with minor modifications.
 
