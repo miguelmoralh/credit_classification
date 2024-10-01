@@ -5,7 +5,7 @@ The model is evaluated using confusion matrix and explained using SHAP for featu
 
 To train the model, simply run main.py after configuring your dataset. All feature selection, model optimization, and calibration decisions are based on the training set, ensuring no data leakage.
 
-## Scripts:
+## Key scripts:
 - data_cleaning.py: Class that cleans the dataset (type conversion, feature removal).
 - imputer.py: Class to handle missing values (median for numeric, "Missing" for categorical).
 - categorical_encoder.py: Class to encode categorical features (manual mapping for ordinal, LabelEncoder for non ordinal).
