@@ -44,14 +44,14 @@ data_cleaner = DataCleanning(
     unique_threshold = 1
 )
 
+# Clean the training and test data
+X_train_cleaned = data_cleaner.fit_transform(X_train.copy())
+X_test_cleaned = data_cleaner.transform(X_test.copy())
+
 # Save the data cleaner instance as a pickle file
 logs_dir = "logs"
 data_cleaner_filename = os.path.join(logs_dir, 'data_cleaner.pkl')
 joblib.dump(data_cleaner, data_cleaner_filename)
-
-# Clean the training and test data
-X_train_cleaned = data_cleaner.fit_transform(X_train.copy())
-X_test_cleaned = data_cleaner.transform(X_test.copy())
 
 # Define the path to the file containing selected features from a previous steps
 file_path = "logs/selected_features/rfe_selected_features.txt"
@@ -79,13 +79,13 @@ preprocessing_pipe = Pipeline(
     ]
 )
 
-# Save the preprocessing pipeline as a pickle file
-preprocessing_pipe_filename = os.path.join(logs_dir, 'preprocessing_pipe.pkl')
-joblib.dump(preprocessing_pipe, preprocessing_pipe_filename)
-
 # Preprocess the training and test data
 X_train_processed = preprocessing_pipe.fit_transform(X_train_cleaned[original_features])
 X_test_processed = preprocessing_pipe.transform(X_test_cleaned[original_features])
+
+# Save the preprocessing pipeline as a pickle file
+preprocessing_pipe_filename = os.path.join(logs_dir, 'preprocessing_pipe.pkl')
+joblib.dump(preprocessing_pipe, preprocessing_pipe_filename)
 
 ### TRAIN THE MODEL
 

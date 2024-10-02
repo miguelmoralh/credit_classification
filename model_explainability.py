@@ -26,7 +26,7 @@ X_train, X_test, y_train, y_test = train_test_split(x, y_encoded, test_size=0.3,
 # Load the saved data cleaner and clean the training and test data
 
 data_cleaner = joblib.load('logs/data_cleaner.pkl')
-X_train_cleaned = data_cleaner.fit_transform(X_train.copy())
+X_train_cleaned = data_cleaner.transform(X_train.copy())
 X_test_cleaned = data_cleaner.transform(X_test.copy())
 
 # Define the path to the file containing selected features from a previous steps
@@ -43,7 +43,7 @@ original_features = match_features(features_list, X_train_cleaned)
 
 # Load the saved pre processing pipline containing imputer and encoder and apply it to training and test data
 preprocessing_pipe = joblib.load('logs/preprocessing_pipe.pkl')
-X_train_processed = preprocessing_pipe.fit_transform(X_train_cleaned[original_features])
+X_train_processed = preprocessing_pipe.transform(X_train_cleaned[original_features])
 X_test_processed = preprocessing_pipe.transform(X_test_cleaned[original_features])
 
 ### MODEL EXPLAINABILITY USING SHAP
